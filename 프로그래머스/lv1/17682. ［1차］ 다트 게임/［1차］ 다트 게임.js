@@ -1,8 +1,9 @@
 function solution(dartResult) {
     const arr = dartResult.match(/(\d+)(\w)([\*/#]?)/g);    
-    
+   
     const nums = [0, 0, 0];
     arr.forEach((str, i) => {
+    
         if (str[0] == 1 && str[1] == 0) nums[i] = 10;
         else if (parseInt(str[0])) nums[i] = parseInt(str[0]);
     
@@ -17,5 +18,6 @@ function solution(dartResult) {
             }
         }
     })
+
     return nums.reduce((sum, cur) => sum + cur, 0);
 }

@@ -1,15 +1,17 @@
 function solution(a, b, n) {
-    // Math.floor(n / a): 받을 수 있는 콜라의 개수
-    // Math.floor(n / a) * a: 가져간 콜라의 개수
-    let answer = Math.floor(n / a) * b;
-    answer += getCola(n - Math.floor(n / a) * a + Math.floor(n / a) * b);
+    // parseInt(n / a) * b: 받을 수 있는 콜라의 개수
+    // parseInt(n / a) * a: 가져간 콜라의 개수
+    // 들고가고 남은 콜라수: n % a
+    
+    let answer = 0;
+    
+    answer += getCola(n);
     
     function getCola(left) {
-        if (Math.floor(left / a) === 0) return 0;
-        const temp = Math.floor(left / a) * b;
-        return temp + getCola(left - Math.floor(left / a) * a + temp);
+        if (left < a) return 0;
+        const received = parseInt(left / a) * b;
+        return received + getCola(left % a + received);
     }
     
     return answer;
 }
-

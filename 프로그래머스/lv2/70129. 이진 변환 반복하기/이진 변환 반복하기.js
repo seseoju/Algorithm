@@ -1,11 +1,11 @@
 function solution(s) {
-    let x = s;
     const answer = [0, 0];
 
-    while (x !== "1") {
-        const removedZeroLen = [...x].filter((n) => +n).join("").length;
-        answer[1] += x.length - removedZeroLen;
-        x = removedZeroLen.toString(2);
+    while (s !== "1") {
+        // const removedZeroLen = [...s].filter((n) => +n).join("").length;
+        const removedZeroLen = s.replace(/0/g, '').length;
+        answer[1] += s.length - removedZeroLen;
+        s = removedZeroLen.toString(2);
         answer[0] += 1;
     }
     

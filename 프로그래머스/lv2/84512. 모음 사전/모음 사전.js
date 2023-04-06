@@ -1,25 +1,20 @@
 function solution(word) {
+    let answer = {};
     const vowel = ["A", "E", "I", "O", "U"];
+    let idx = 0;
     
-    function getWords(prev, n, result){
-        if (n === 5) return result;
-
-        const arr = [];
-
-        for (let i = 0; i < prev.length; i++) {
-            for (let j = 0; j < 5; j++) {
-                arr.push(prev[i] + vowel[j]);
-            }
-        }
+    const dfs = (prev, n) => {
+        if (n > 5) return;
         
-        result = [...result, ...arr];
-        prev = arr;
-
-        return getWords(prev, n + 1, result);
-    }
+        // 사전에 등록된 단어를 방문한 순서를 기록한다.
+        answer[prev] = idx++;
+        for (let i = 0; i < 5; i++) {
+            const next = prev + vowel[i];
+            dfs(next, n + 1);
+        }
+    };
     
-    const words = getWords(vowel, 1, [...vowel]);
-    words.sort();
-    
-    return words.indexOf(word) + 1;
+    dfs("", 0);
+    return answer[word];
 }
+

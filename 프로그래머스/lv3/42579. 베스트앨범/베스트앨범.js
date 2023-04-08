@@ -1,31 +1,21 @@
 function solution(genres, plays) {
-    let answer = [];
-    
-    // 각 장르에 속한 노래들의 총 재생 횟수를 구한다.
-    const total = {};
-    for (let i = 0; i < genres.length; i++) {
-        total[genres[i]] = (total[genres[i]] || 0) + plays[i];
-    }
-    
-    // 총 재생 횟수가 가장 많은 장르부터 정렬한다.
-    const sortedGenres = Object.keys(total).sort((a, b) => total[b] - total[a]);
-    
-    // 각 장르 내에서 많이 재생된 순으로 정렬해 2개의 곡만 남긴다.
-    const playCount = {};
-    for (let i = 0; i < genres.length; i++) {
-        playCount[genres[i]] = (playCount[genres[i]] || []).concat(i);
-    }
-    
-    for (let genre in playCount) {
-        playCount[genre].sort((a, b) => plays[b] - plays[a]);
-        playCount[genre] = playCount[genre].slice(0, 2);
-    }
-    
-    // 총 재생 횟수가 가장 높은 장르부터 곡들을 나열한다.
-    for (const genre of sortedGenres) {
-        answer = [...answer, ...playCount[genre]];
-    }
-    
-    
-    return answer;
+  let dic = {}; // 장르별 총 재생 횟수 저장
+  genres.forEach((t, i) => {
+    dic[t] = dic[t] ? dic[t] + plays[i] : plays[i];
+  });
+
+  let dupDic = {};
+  return genres
+    .map((t, i) => ({genre: t, count: plays[i], index: i})) // 각 노래의 정보를 저장한 배열 생성
+    .sort((a, b) => {
+      if (a.genre !== b.genre) return dic[b.genre] - dic[a.genre]; // 장르가 다르면 장르의 총 재생 횟수를 기준으로 정렬
+      if (a.count !== b.count) return b.count - a.count; // 장르가 같고, 재생 횟수가 다르면 재생 횟수 기준으로 정렬
+      return a.index - b.index; // 장르도 같고, 재생 횟수도 같으면 고유 번호 낮은 기준으로 정렬
+    })
+    .filter((t) => {
+      if (dupDic[t.genre] >= 2) return false;
+      dupDic[t.genre] = dupDic[t.genre] ? dupDic[t.genre] + 1 : 1; // 각 장르에서 노래 2개만 선택
+      return true;
+    })
+    .map((t) => t.index);
 }

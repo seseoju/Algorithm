@@ -3,8 +3,9 @@ def solution(n):
     result = []
     while d <= n:
         if n % d == 0:
-            result.append(d)
-            n = n / d
+            n /= d
+            if d not in result:
+                result.append(d)
         else:
             d += 1
-    return list(dict.fromkeys(result))
+    return result

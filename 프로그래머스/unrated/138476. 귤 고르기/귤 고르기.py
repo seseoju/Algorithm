@@ -5,7 +5,7 @@ def solution(k, tangerine):
     dict = Counter(tangerine)
     count = 0
   
-    sorted_dict = list(map(lambda x:x[1], sorted(dict.items(), key = lambda x: -x[1])))
+    sorted_dict = sorted(dict.values(), reverse = True)
     
     for c in sorted_dict:
         count += c

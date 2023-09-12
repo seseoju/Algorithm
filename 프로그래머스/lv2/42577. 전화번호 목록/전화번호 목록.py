@@ -1,7 +1,15 @@
+# 효율성 개선 -> 정렬x, 해시 사용
+from collections import Counter
+
 def solution(phone_book):
-    phone_book.sort() # 문자열 정렬
-    
-    for i, num1 in enumerate(phone_book[:-1]):
-        if phone_book[i+1].startswith(num1): return False
-    
+    dict = Counter(phone_book)
+   
+    for num in phone_book:
+        prefix = ''
+        for n in num:
+            prefix += n
+            if prefix in dict and prefix != num:
+                return False
+        
     return True
+            
